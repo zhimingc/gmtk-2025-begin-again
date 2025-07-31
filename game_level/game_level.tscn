@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://brwavp7xbiydt"]
+
+[ext_resource type="Script" uid="uid://4jvy233oyccj" path="res://mindful_manager/mindful_manager.gd" id="1_rhdpm"]
+[ext_resource type="Texture2D" uid="uid://dhncbfced0xy8" path="res://assets/circle_button.png" id="2_r06ut"]
+[ext_resource type="Script" uid="uid://reovckrxmpsk" path="res://mindful_manager/mindful_visualizer.gd" id="2_xok2r"]
+[ext_resource type="Texture2D" uid="uid://b5owen4ol5wpt" path="res://assets/circle-border-768.png" id="3_pigtr"]
+
+[node name="GameLevel" type="Node2D"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="MindfulManager" type="Node" parent="."]
+script = ExtResource("1_rhdpm")
+
+[node name="MindfulVisualizer" type="Node2D" parent="."]
+unique_name_in_owner = true
+script = ExtResource("2_xok2r")
+
+[node name="Center" type="Sprite2D" parent="MindfulVisualizer"]
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("2_r06ut")
+
+[node name="TimerCircle" type="Sprite2D" parent="MindfulVisualizer"]
+show_behind_parent = true
+texture = ExtResource("3_pigtr")
