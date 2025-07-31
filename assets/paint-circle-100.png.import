@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b5owen4ol5wpt"
-path="res://.godot/imported/circle-border-768.png-3d5bd29d71c3e558cb6f848319510478.ctex"
+uid="uid://cxe3b8pbuo3ck"
+path="res://.godot/imported/paint-circle-100.png-e86d7945bf4abe9d9e3df17ec61c418e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/circle-border-768.png"
-dest_files=["res://.godot/imported/circle-border-768.png-3d5bd29d71c3e558cb6f848319510478.ctex"]
+source_file="res://assets/paint-circle-100.png"
+dest_files=["res://.godot/imported/paint-circle-100.png-e86d7945bf4abe9d9e3df17ec61c418e.ctex"]
 
 [params]
 
@@ -21,7 +21,7 @@ compress/lossy_quality=0.7
 compress/hdr_compression=1
 compress/normal_map=0
 compress/channel_pack=0
-mipmaps/generate=true
+mipmaps/generate=false
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""

@@ -1,9 +1,29 @@
-[gd_scene load_steps=5 format=3 uid="uid://brwavp7xbiydt"]
+[gd_scene load_steps=11 format=3 uid="uid://brwavp7xbiydt"]
 
 [ext_resource type="Script" uid="uid://4jvy233oyccj" path="res://mindful_manager/mindful_manager.gd" id="1_rhdpm"]
-[ext_resource type="Texture2D" uid="uid://dhncbfced0xy8" path="res://assets/circle_button.png" id="2_r06ut"]
 [ext_resource type="Script" uid="uid://reovckrxmpsk" path="res://mindful_manager/mindful_visualizer.gd" id="2_xok2r"]
+[ext_resource type="Texture2D" uid="uid://kc1ksxvhok15" path="res://assets/circle_64.png" id="3_2dw86"]
 [ext_resource type="Texture2D" uid="uid://b5owen4ol5wpt" path="res://assets/circle-border-768.png" id="3_pigtr"]
+[ext_resource type="Texture2D" uid="uid://u40ygurp1wnx" path="res://assets/circle-512.png" id="5_rgtcy"]
+[ext_resource type="Texture2D" uid="uid://cxe3b8pbuo3ck" path="res://assets/paint-circle-100.png" id="6_2dw86"]
+
+[sub_resource type="Curve" id="Curve_11xf2"]
+_data = [Vector2(0, 0), 0.0, 0.396402, 0, 0, Vector2(1, 0.170717), 0.0, 0.0, 0, 0]
+point_count = 2
+metadata/_snap_count = 2
+
+[sub_resource type="Gradient" id="Gradient_ypblm"]
+offsets = PackedFloat32Array(0, 0.68915, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="Curve" id="Curve_2dw86"]
+_data = [Vector2(0, 0.218104), 0.0, 0.0, 0, 0, Vector2(0.275072, 0.368165), 0.0, 0.0, 0, 0, Vector2(0.618911, 0.368165), 0.0, 0.0, 0, 0, Vector2(1, 0.226002), 0.0, 0.0, 0, 0]
+point_count = 4
+metadata/_snap_count = 2
+
+[sub_resource type="Gradient" id="Gradient_xok2r"]
+offsets = PackedFloat32Array(0, 0.797654, 0.903226, 1)
+colors = PackedColorArray(0.15, 0.0345, 0.0345, 1, 0.74, 0.3108, 0.317953, 1, 0.928406, 0.302974, 0.304944, 1, 1, 0.3, 0.3, 0)
 
 [node name="GameLevel" type="Node2D"]
 
@@ -17,9 +37,34 @@ unique_name_in_owner = true
 script = ExtResource("2_xok2r")
 
 [node name="Center" type="Sprite2D" parent="MindfulVisualizer"]
-scale = Vector2(0.25, 0.25)
-texture = ExtResource("2_r06ut")
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("3_2dw86")
 
 [node name="TimerCircle" type="Sprite2D" parent="MindfulVisualizer"]
 show_behind_parent = true
+texture = ExtResource("3_pigtr")
+
+[node name="GoodPressParticles" type="CPUParticles2D" parent="MindfulVisualizer"]
+emitting = false
+amount = 1
+texture = ExtResource("5_rgtcy")
+one_shot = true
+explosiveness = 1.0
+gravity = Vector2(0, 0)
+scale_amount_curve = SubResource("Curve_11xf2")
+color_ramp = SubResource("Gradient_ypblm")
+
+[node name="BadPressParticles" type="CPUParticles2D" parent="MindfulVisualizer"]
+emitting = false
+amount = 1
+texture = ExtResource("6_2dw86")
+one_shot = true
+explosiveness = 1.0
+gravity = Vector2(0, 0)
+scale_amount_curve = SubResource("Curve_2dw86")
+color_ramp = SubResource("Gradient_xok2r")
+
+[node name="DebugGoodPress" type="Sprite2D" parent="MindfulVisualizer"]
+modulate = Color(0, 1, 0.183333, 1)
+scale = Vector2(0.063, 0.063)
 texture = ExtResource("3_pigtr")
