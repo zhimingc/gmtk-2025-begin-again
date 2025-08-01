@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://brwavp7xbiydt"]
+[gd_scene load_steps=17 format=3 uid="uid://brwavp7xbiydt"]
 
 [ext_resource type="Script" uid="uid://4jvy233oyccj" path="res://mindful_manager/mindful_manager.gd" id="1_rhdpm"]
 [ext_resource type="Script" uid="uid://reovckrxmpsk" path="res://mindful_manager/mindful_visualizer.gd" id="2_xok2r"]
@@ -6,6 +6,12 @@
 [ext_resource type="Texture2D" uid="uid://b5owen4ol5wpt" path="res://assets/circle-border-768.png" id="3_pigtr"]
 [ext_resource type="Texture2D" uid="uid://u40ygurp1wnx" path="res://assets/circle-512.png" id="5_rgtcy"]
 [ext_resource type="Texture2D" uid="uid://cxe3b8pbuo3ck" path="res://assets/paint-circle-100.png" id="6_2dw86"]
+[ext_resource type="Texture2D" uid="uid://c6476twt0hhyv" path="res://assets/square.png" id="7_7amf7"]
+[ext_resource type="Texture2D" uid="uid://dijxwshx5dpon" path="res://assets/circle-768.png" id="7_11xf2"]
+[ext_resource type="Script" uid="uid://bk2spu8qtu8nh" path="res://managers/progress_manager.gd" id="8_wmaqw"]
+[ext_resource type="AudioStream" uid="uid://b37uwkalcmgi0" path="res://assets/audio/60-bpm-3beat-bar.wav" id="9_tuemy"]
+[ext_resource type="AudioStream" uid="uid://cf25hsefogxlm" path="res://assets/audio/60-bpm-1-4-beat.wav" id="10_7amf7"]
+[ext_resource type="AudioStream" uid="uid://b8ttoyogl1gv4" path="res://assets/audio/enolareven__432-hz-a-bell.wav" id="11_tuemy"]
 
 [sub_resource type="Curve" id="Curve_11xf2"]
 _data = [Vector2(0, 0), 0.0, 0.396402, 0, 0, Vector2(1, 0.170717), 0.0, 0.0, 0, 0]
@@ -29,22 +35,25 @@ colors = PackedColorArray(0.15, 0.0345, 0.0345, 1, 0.74, 0.3108, 0.317953, 1, 0.
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
-[node name="MindfulManager" type="Node" parent="."]
-script = ExtResource("1_rhdpm")
-
 [node name="MindfulVisualizer" type="Node2D" parent="."]
 unique_name_in_owner = true
 script = ExtResource("2_xok2r")
 
 [node name="Center" type="Sprite2D" parent="MindfulVisualizer"]
-scale = Vector2(0.2, 0.2)
+scale = Vector2(0.1, 0.1)
 texture = ExtResource("3_2dw86")
 
 [node name="TimerCircle" type="Sprite2D" parent="MindfulVisualizer"]
 show_behind_parent = true
 texture = ExtResource("3_pigtr")
 
+[node name="FeedbackCircle" type="Sprite2D" parent="MindfulVisualizer"]
+modulate = Color(1, 0, 0, 0)
+show_behind_parent = true
+texture = ExtResource("3_pigtr")
+
 [node name="GoodPressParticles" type="CPUParticles2D" parent="MindfulVisualizer"]
+z_index = 2
 emitting = false
 amount = 1
 texture = ExtResource("5_rgtcy")
@@ -65,6 +74,89 @@ scale_amount_curve = SubResource("Curve_2dw86")
 color_ramp = SubResource("Gradient_xok2r")
 
 [node name="DebugGoodPress" type="Sprite2D" parent="MindfulVisualizer"]
+visible = false
 modulate = Color(0, 1, 0.183333, 1)
 scale = Vector2(0.063, 0.063)
 texture = ExtResource("3_pigtr")
+
+[node name="GoodPressArea" type="Sprite2D" parent="MindfulVisualizer"]
+modulate = Color(0, 1, 0.183333, 0.180392)
+show_behind_parent = true
+z_index = -1
+scale = Vector2(0.05, 0.05)
+texture = ExtResource("7_11xf2")
+
+[node name="Blackout" type="Sprite2D" parent="MindfulVisualizer"]
+modulate = Color(0, 0, 0, 0)
+scale = Vector2(5, 5)
+texture = ExtResource("7_7amf7")
+
+[node name="HUD" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -960.0
+offset_top = -540.0
+offset_right = 960.0
+offset_bottom = 540.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HUD"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -112.0
+offset_right = 112.0
+offset_bottom = 188.0
+grow_horizontal = 2
+
+[node name="PressesLabel" type="RichTextLabel" parent="HUD/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/normal_font_size = 64
+text = "10"
+horizontal_alignment = 1
+
+[node name="StartPrompt" type="RichTextLabel" parent="HUD"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -128.0
+offset_top = -168.0
+offset_right = 136.0
+offset_bottom = -76.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/normal_font_size = 24
+theme_override_font_sizes/bold_font_size = 24
+bbcode_enabled = true
+text = "Press [b]Space[/b] to start"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MetronomePlayer" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("9_tuemy")
+
+[node name="ProgressManager" type="Node" parent="."]
+script = ExtResource("8_wmaqw")
+metronome_tracks = Array[AudioStream]([ExtResource("9_tuemy"), ExtResource("10_7amf7")])
+
+[node name="MindfulManager" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("1_rhdpm")
+
+[node name="PressAudioPlayer" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("11_tuemy")
+volume_db = -8.0
