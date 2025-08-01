@@ -32,6 +32,7 @@ func set_mindful_state(new_state : MINDFUL_STATE) -> void:
 			emit_signal("broadcast_idle")
 		MINDFUL_STATE.RUNNING:
 			restart_mindful_timer()
+			mindful_vis.trigger_good_press()
 			%StartPrompt.visible = false
 			%PressAudioPlayer.play()
 			emit_signal("broadcast_running")
@@ -71,6 +72,12 @@ func _process(delta: float) -> void:
 					mindful_vis.trigger_bad_press()
 					emit_signal("broadcast_bad_press")
 					restart_mindful_timer()
+
+	if Input.is_action_just_pressed("restart"):
+		set_mindful_state(MINDFUL_STATE.IDLE)
+
+	if Input.is_action_just_pressed("debug_goodpress"):
+		trigger_good_press()
 
 func trigger_good_press() -> void:
 	mindful_vis.trigger_good_press()

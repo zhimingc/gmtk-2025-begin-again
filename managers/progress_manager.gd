@@ -1,8 +1,9 @@
 class_name ProgressManager extends Node
 
-# 0, 40, 80, 120, 160, 200 (seconds approx.)
-# 0, 10, 20, 30, 40, 50 (presses)
-enum STAGES { S1, S2, S3, S4, S5 }
+# enum PRESS_PROG { START = 0, FIRST = 5, SECOND = 10, THIRD = 15, FOURTH = 20, FIFTH = 25, DONE = 35}
+# enum PRESS_PROG { START = 0, FIRST = 4, SECOND = 8, THIRD = 12, FOURTH = 16, FIFTH = 20, DONE = 28}
+enum PRESS_PROG { START = 0, FIRST = 2, SECOND = 4, THIRD = 6, FOURTH = 8, FIFTH = 12, DONE = 16} # debugging
+#enum PRESS_PROG { START = 0, FIRST = 1, SECOND = 2, THIRD = 3, FOURTH = 4, FIFTH = 5, DONE = 6} # debugging fast
 
 @export var metronome_tracks : Array[AudioStream]
 
@@ -10,38 +11,35 @@ enum STAGES { S1, S2, S3, S4, S5 }
 @onready var mindful_vis : MindfulVisualizer = %MindfulVisualizer
 @onready var presses_label : RichTextLabel = %PressesLabel
 @onready var metronome_player : AudioStreamPlayer = %MetronomePlayer
+@onready var progress_dots : ProgressDots = %ProgressDots
 
 var good_presses : int = 0
-# enum PRESS_PROG { FIRST = 5, SECOND = 10, THIRD = 15, FOURTH = 20, FIFTH = 25}
-# enum PRESS_PROG { FIRST = 4, SECOND = 8, THIRD = 12, FOURTH = 16, FIFTH = 20, DONE = 28}
-# enum PRESS_PROG { FIRST = 2, SECOND = 4, THIRD = 6, FOURTH = 8, FIFTH = 12} # debugging
-enum PRESS_PROG { FIRST = 1, SECOND = 2, THIRD = 3, FOURTH = 4, FIFTH = 5, DONE = 6} # debugging fast
+var last_stage : PRESS_PROG = PRESS_PROG.START
 
 func _ready() -> void:
 	mindful_manager.connect("broadcast_good_press", on_good_press)
 	mindful_manager.connect("broadcast_bad_press", on_bad_press)
 	mindful_manager.connect("broadcast_running", on_game_running)
+	mindful_manager.connect("broadcast_idle", on_game_idle)
 	set_presses_label()
+
+func on_game_idle() -> void:
+	reset_progress()
 
 func on_game_running() -> void:
-	on_bad_press()
+	metronome_player.play(0.0)
+	reset_progress_from_stage(PRESS_PROG.START)
 
 func on_bad_press() -> void:
-	good_presses = 0
-	set_presses_label()
-	mindful_vis.reset_visualisations()
-	metronome_player.stream = metronome_tracks[0]
-	metronome_player.play(0.0)
+	reset_progress_from_stage(last_stage)
 
 func on_good_press() -> void:
 	good_presses += 1
 	set_presses_label()
-	update_progress()
+	update_progress(good_presses)
 
-func update_progress() -> void:
-	# current disturbances: 5, 10, 15, 20, 25
-	# done: 35
-	match good_presses:
+func update_progress(presses : int) -> void:
+	match presses:
 		PRESS_PROG.FIRST:
 			mindful_vis.remove_good_press_area()
 		PRESS_PROG.SECOND:
@@ -49,12 +47,36 @@ func update_progress() -> void:
 		PRESS_PROG.THIRD: # remove all metronome
 			metronome_player.stream = metronome_tracks[1]
 			metronome_player.play(0.0)
-		PRESS_PROG.FOURTH: # fading timer circle vis
+		PRESS_PROG.FOURTH:
 			metronome_player.stop()
 		PRESS_PROG.FIFTH: # blackout
 			mindful_vis.trigger_blackout()
 		PRESS_PROG.DONE:
 			pass
+
+	var stage = PRESS_PROG.values().find(good_presses)
+	if stage != -1:
+		last_stage = PRESS_PROG.values()[stage]
+		progress_dots.set_progress_hud(stage)
+
+func reset_progress_from_stage(stage : PRESS_PROG) -> void:
+	good_presses = stage
+	set_presses_label()
+	if good_presses < PRESS_PROG.FOURTH and metronome_player.playing:
+		metronome_player.play(0.0)
+	else:
+		metronome_player.stop()
+
+func reset_progress() -> void:
+	good_presses = 0
+	set_presses_label()
+	reset_audio_assist()
+	mindful_vis.reset_visualisation()
+	progress_dots.set_progress_hud(0)
+
+func reset_audio_assist() -> void:
+	metronome_player.stop()
+	metronome_player.stream = metronome_tracks[0]
 
 func set_presses_label() -> void:
 	presses_label.text = str(good_presses)
