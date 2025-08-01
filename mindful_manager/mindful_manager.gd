@@ -2,10 +2,11 @@ class_name MindfulManager extends Node
 
 signal broadcast_idle()
 signal broadcast_running()
+signal broadcast_restarting()
 signal broadcast_good_press()
 signal broadcast_bad_press()
 
-enum MINDFUL_STATE { IDLE, RUNNING }
+enum MINDFUL_STATE { IDLE, RUNNING, RESTARTING }
 
 @export var press_frequency : float = 4.0
 @export var before_press_window : float = 0.3
@@ -28,6 +29,7 @@ func set_mindful_state(new_state : MINDFUL_STATE) -> void:
 			mindful_timer = 0.0
 			new_loop = true
 			pressed_for_loop = true
+			%BeginAgain.modulate = Color.TRANSPARENT
 			%StartPrompt.visible = true
 			emit_signal("broadcast_idle")
 		MINDFUL_STATE.RUNNING:
@@ -36,7 +38,22 @@ func set_mindful_state(new_state : MINDFUL_STATE) -> void:
 			%StartPrompt.visible = false
 			%PressAudioPlayer.play()
 			emit_signal("broadcast_running")
+		MINDFUL_STATE.RESTARTING:
+			mindful_timer = 0.0
+			pressed_for_loop = true
+			mindful_vis.trigger_begin_again()
+			trigger_begin_again()
+			var restart_tween = create_tween()
+			restart_tween.tween_interval(4.0)
+			restart_tween.tween_callback(func(): set_mindful_state(MINDFUL_STATE.RUNNING))
+			emit_signal("broadcast_restarting")
+
 	mindful_vis.update_visualization(get_mindful_press_progress())
+
+func trigger_begin_again() -> void:
+	%BeginAgain.modulate = Color.WHITE
+	var prompt_tween = create_tween()
+	prompt_tween.tween_property(%BeginAgain, "modulate", Color.TRANSPARENT, 3.6)
 
 func restart_mindful_timer() -> void:
 	mindful_timer = press_frequency
@@ -55,6 +72,7 @@ func _process(delta: float) -> void:
 				if not pressed_for_loop:
 					mindful_vis.trigger_bad_press()
 					emit_signal("broadcast_bad_press")
+					set_mindful_state(MINDFUL_STATE.RESTARTING)
 				else:
 					pressed_for_loop = false
 			mindful_vis.update_visualization(get_mindful_press_progress())
@@ -71,7 +89,8 @@ func _process(delta: float) -> void:
 				else:
 					mindful_vis.trigger_bad_press()
 					emit_signal("broadcast_bad_press")
-					restart_mindful_timer()
+					# restart_mindful_timer()
+					set_mindful_state(MINDFUL_STATE.RESTARTING)
 
 	if Input.is_action_just_pressed("restart"):
 		set_mindful_state(MINDFUL_STATE.IDLE)

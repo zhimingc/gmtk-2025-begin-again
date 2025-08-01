@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://brwavp7xbiydt"]
+[gd_scene load_steps=24 format=3 uid="uid://brwavp7xbiydt"]
 
 [ext_resource type="Script" uid="uid://4jvy233oyccj" path="res://mindful_manager/mindful_manager.gd" id="1_rhdpm"]
 [ext_resource type="Script" uid="uid://reovckrxmpsk" path="res://mindful_manager/mindful_visualizer.gd" id="2_xok2r"]
@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://c5m3cosy4s12t" path="res://assets/icon_outline_circle.png" id="8_dtokx"]
 [ext_resource type="Script" uid="uid://bk2spu8qtu8nh" path="res://managers/progress_manager.gd" id="8_wmaqw"]
 [ext_resource type="Script" uid="uid://c0uv01pafvfdb" path="res://managers/progress/progress_dots.gd" id="8_woy02"]
+[ext_resource type="Script" uid="uid://d375is147lalu" path="res://game_level/fire_light.gd" id="9_flisg"]
 [ext_resource type="AudioStream" uid="uid://b37uwkalcmgi0" path="res://assets/audio/60-bpm-3beat-bar.wav" id="9_tuemy"]
 [ext_resource type="AudioStream" uid="uid://cf25hsefogxlm" path="res://assets/audio/60-bpm-1-4-beat.wav" id="10_7amf7"]
 [ext_resource type="Texture2D" uid="uid://cloqkbxr62b5x" path="res://assets/icon_circle.png" id="10_qhdog"]
@@ -39,19 +40,19 @@ colors = PackedColorArray(0.15, 0.0345, 0.0345, 1, 0.74, 0.3108, 0.317953, 1, 0.
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_dn7wq"]
 shader = ExtResource("11_402n5")
 shader_parameter/fire_color = Color(0.966934, 0.30131, 0, 1)
-shader_parameter/fire_power_factor = 0.0
+shader_parameter/fire_power_factor = 0.15
 shader_parameter/fire_intensity = 1.25
 shader_parameter/fire_start = 1.0
-shader_parameter/ball_size = 1.0
-shader_parameter/roughness = 0.5
-shader_parameter/detail = 6
+shader_parameter/ball_size = 0.8
+shader_parameter/roughness = 0.35
+shader_parameter/detail = 12
 shader_parameter/scale = 4.0
-shader_parameter/lacunarity = 1.0
+shader_parameter/lacunarity = 2.0
 
 [node name="GameLevel" type="Node2D"]
 
 [node name="BG" type="Sprite2D" parent="."]
-modulate = Color(1.86507e-07, 0.140031, 0.228109, 1)
+modulate = Color(0.098, 0.06, 0.25, 1)
 scale = Vector2(6, 6)
 texture = ExtResource("7_7amf7")
 
@@ -62,9 +63,24 @@ unique_name_in_owner = true
 script = ExtResource("2_xok2r")
 blackout_color = Color(0.0431373, 0, 0.14902, 1)
 
-[node name="Center" type="Sprite2D" parent="MindfulVisualizer"]
-visible = false
-scale = Vector2(0.1, 0.1)
+[node name="CandleStick" type="Sprite2D" parent="MindfulVisualizer"]
+self_modulate = Color(0.33, 0.33, 0.33, 1)
+position = Vector2(0, 135)
+scale = Vector2(0.03, 0.5)
+texture = ExtResource("7_7amf7")
+
+[node name="Center" type="Sprite2D" parent="MindfulVisualizer/CandleStick"]
+modulate = Color(0.334894, 0.324443, 0.353857, 1)
+show_behind_parent = true
+z_index = 2
+position = Vector2(0, -250)
+scale = Vector2(7.608, 0.456)
+texture = ExtResource("3_2dw86")
+
+[node name="Center2" type="Sprite2D" parent="MindfulVisualizer/CandleStick"]
+self_modulate = Color(0.33, 0.33, 0.33, 1)
+position = Vector2(0, 250)
+scale = Vector2(7.768, 0.466)
 texture = ExtResource("3_2dw86")
 
 [node name="TimerCircle" type="Sprite2D" parent="MindfulVisualizer"]
@@ -73,6 +89,12 @@ texture = ExtResource("3_pigtr")
 
 [node name="FeedbackCircle" type="Sprite2D" parent="MindfulVisualizer"]
 modulate = Color(1, 0, 0, 0)
+show_behind_parent = true
+z_index = 4
+texture = ExtResource("3_pigtr")
+
+[node name="RestartCircle" type="Sprite2D" parent="MindfulVisualizer"]
+modulate = Color(1, 1, 1, 0)
 show_behind_parent = true
 z_index = 3
 texture = ExtResource("3_pigtr")
@@ -89,6 +111,8 @@ scale_amount_curve = SubResource("Curve_11xf2")
 color_ramp = SubResource("Gradient_ypblm")
 
 [node name="BadPressParticles" type="CPUParticles2D" parent="MindfulVisualizer"]
+visible = false
+z_index = 2
 emitting = false
 amount = 1
 texture = ExtResource("6_2dw86")
@@ -105,28 +129,27 @@ scale = Vector2(0.063, 0.063)
 texture = ExtResource("3_pigtr")
 
 [node name="GoodPressArea" type="Sprite2D" parent="MindfulVisualizer"]
-modulate = Color(0, 1, 0.183333, 0.74902)
+modulate = Color(0, 1, 0.183333, 0.243137)
 show_behind_parent = true
-z_index = -1
 scale = Vector2(0.05, 0.05)
 texture = ExtResource("7_11xf2")
 
 [node name="Blackout" type="Sprite2D" parent="MindfulVisualizer"]
-modulate = Color(0.045, 0, 0.15, 1)
+modulate = Color(0.045, 0, 0.15, 0)
 scale = Vector2(5, 5)
 texture = ExtResource("7_7amf7")
 
 [node name="FireLight1" type="PointLight2D" parent="MindfulVisualizer"]
 color = Color(0.86, 0.458667, 0, 1)
-energy = 2.0
 texture = ExtResource("8_dn7wq")
 texture_scale = 5.0
+script = ExtResource("9_flisg")
 
 [node name="FireLight2" type="PointLight2D" parent="MindfulVisualizer"]
 color = Color(0.962712, 0.0577218, 3.85046e-07, 1)
-energy = 2.0
 texture = ExtResource("8_dn7wq")
 texture_scale = 2.0
+script = ExtResource("9_flisg")
 
 [node name="HUD" type="Control" parent="."]
 layout_mode = 3
@@ -148,7 +171,7 @@ anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -112.0
-offset_top = 12.0
+offset_top = 52.0
 offset_right = 112.0
 offset_bottom = 152.0
 grow_horizontal = 2
@@ -156,7 +179,6 @@ grow_horizontal = 2
 [node name="ProgressDots" type="HBoxContainer" parent="HUD/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_vertical = 3
 script = ExtResource("8_woy02")
 empty_texture = ExtResource("8_dtokx")
 filled_texture = ExtResource("10_qhdog")
@@ -193,14 +215,16 @@ stretch_mode = 5
 
 [node name="PressesLabel" type="RichTextLabel" parent="HUD/VBoxContainer"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_font_sizes/normal_font_size = 48
+theme_override_font_sizes/normal_font_size = 36
 text = "10"
 horizontal_alignment = 1
 
 [node name="StartPrompt" type="RichTextLabel" parent="HUD"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -220,7 +244,29 @@ text = "Press Space to start"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="BeginAgain" type="RichTextLabel" parent="HUD"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -132.0
+offset_top = -208.0
+offset_right = 132.0
+offset_bottom = -116.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/normal_font_size = 32
+theme_override_font_sizes/bold_font_size = 24
+bbcode_enabled = true
+text = "[fade start=0 length=12]Begin Again"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="Fire" type="ColorRect" parent="HUD"]
+z_index = 2
 material = SubResource("ShaderMaterial_dn7wq")
 layout_mode = 1
 anchors_preset = 8

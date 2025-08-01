@@ -3,7 +3,7 @@ class_name  MindfulVisualizer extends Node2D
 @export var blackout_color : Color
 
 @onready var timer_circle : Sprite2D = $TimerCircle
-@onready var center_vis : Sprite2D = $Center
+@onready var restart_circle : Sprite2D = $RestartCircle
 @onready var good_press_area : Sprite2D = $GoodPressArea
 @onready var good_press_parts : CPUParticles2D = $GoodPressParticles
 @onready var bad_press_parts : CPUParticles2D = $BadPressParticles
@@ -25,11 +25,17 @@ func update_visualization(progress : float) -> void:
 		disturb_fade_tween.tween_property(timer_circle, "modulate", Color.TRANSPARENT, 0.5)
 
 func loop_visualization() -> void:
+	restart_circle.modulate = Color.TRANSPARENT
 	if timer_circle:
 		timer_circle.scale = Vector2.ONE
 		timer_circle.modulate = Color.TRANSPARENT
 		var timer_circle_fade = create_tween()
 		timer_circle_fade.tween_property(timer_circle, "modulate", Color.WHITE, 0.75)
+
+func trigger_begin_again() -> void:
+	restart_circle.modulate = Color.WHITE
+	var timer_circle_fade = create_tween()
+	timer_circle_fade.tween_property(restart_circle, "modulate", Color.TRANSPARENT, 3.6)
 
 func trigger_good_press() -> void:
 	good_press_parts.emitting = true

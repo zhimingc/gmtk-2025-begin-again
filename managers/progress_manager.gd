@@ -1,8 +1,8 @@
 class_name ProgressManager extends Node
 
 # enum PRESS_PROG { START = 0, FIRST = 5, SECOND = 10, THIRD = 15, FOURTH = 20, FIFTH = 25, DONE = 35}
-# enum PRESS_PROG { START = 0, FIRST = 4, SECOND = 8, THIRD = 12, FOURTH = 16, FIFTH = 20, DONE = 28}
-enum PRESS_PROG { START = 0, FIRST = 2, SECOND = 4, THIRD = 6, FOURTH = 8, FIFTH = 12, DONE = 16} # debugging
+enum PRESS_PROG { START = 0, FIRST = 4, SECOND = 8, THIRD = 12, FOURTH = 16, FIFTH = 20, DONE = 28}
+# enum PRESS_PROG { START = 0, FIRST = 2, SECOND = 4, THIRD = 6, FOURTH = 8, FIFTH = 12, DONE = 16} # debugging
 #enum PRESS_PROG { START = 0, FIRST = 1, SECOND = 2, THIRD = 3, FOURTH = 4, FIFTH = 5, DONE = 6} # debugging fast
 
 @export var metronome_tracks : Array[AudioStream]
@@ -21,6 +21,7 @@ func _ready() -> void:
 	mindful_manager.connect("broadcast_bad_press", on_bad_press)
 	mindful_manager.connect("broadcast_running", on_game_running)
 	mindful_manager.connect("broadcast_idle", on_game_idle)
+	mindful_manager.connect("broadcast_restarting", on_game_restart)
 	set_presses_label()
 
 func on_game_idle() -> void:
@@ -28,7 +29,10 @@ func on_game_idle() -> void:
 
 func on_game_running() -> void:
 	metronome_player.play(0.0)
-	reset_progress_from_stage(PRESS_PROG.START)
+	reset_progress_from_stage(last_stage)
+
+func on_game_restart() -> void:
+	metronome_player.stop()
 
 func on_bad_press() -> void:
 	reset_progress_from_stage(last_stage)
@@ -69,6 +73,7 @@ func reset_progress_from_stage(stage : PRESS_PROG) -> void:
 
 func reset_progress() -> void:
 	good_presses = 0
+	last_stage = PRESS_PROG.START
 	set_presses_label()
 	reset_audio_assist()
 	mindful_vis.reset_visualisation()
