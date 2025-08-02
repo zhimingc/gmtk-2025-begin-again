@@ -33,3 +33,6 @@ func _process(delta: float) -> void:
 	if cur_time <= 0.0:
 		new_flicker()
 
+func trigger_end_game() -> void:
+	original_energy = 0.1
+	flicker_energy = Vector2(-0.25, 0.25)

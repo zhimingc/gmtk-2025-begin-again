@@ -1,7 +1,6 @@
 class_name ProgressManager extends Node
 
-# enum PRESS_PROG { START = 0, FIRST = 5, SECOND = 10, THIRD = 15, FOURTH = 20, FIFTH = 25, DONE = 35}
-# enum PRESS_PROG { START = 0, FIRST = 4, SECOND = 8, THIRD = 12, FOURTH = 16, FIFTH = 20, DONE = 28}
+# enum PRESS_PROG { START = 0, FIRST = 4, SECOND = 8, THIRD = 12, FOURTH = 16, FIFTH = 20, DONE = 25}
 # enum PRESS_PROG { START = 0, FIRST = 2, SECOND = 4, THIRD = 6, FOURTH = 8, FIFTH = 12, DONE = 16} # debugging
 enum PRESS_PROG { START = 0, FIRST = 1, SECOND = 2, THIRD = 3, FOURTH = 4, FIFTH = 5, DONE = 6} # debugging fast
 
@@ -43,6 +42,8 @@ func on_good_press() -> void:
 	good_presses += 1
 	set_presses_label()
 	update_progress(good_presses)
+	if good_presses < PRESS_PROG.FOURTH and metronome_player.playing:
+		metronome_player.play(0.0)
 
 func update_progress(presses : int) -> void:
 	match presses:

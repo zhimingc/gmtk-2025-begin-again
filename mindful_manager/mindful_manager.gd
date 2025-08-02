@@ -2,6 +2,7 @@ class_name MindfulManager extends Node
 
 signal broadcast_idle()
 signal broadcast_running()
+signal broadcast_game_starting()
 signal broadcast_restarting()
 signal broadcast_good_press()
 signal broadcast_bad_press()
@@ -88,7 +89,9 @@ func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("mindful_input"):
 		match mindful_state:
 			MINDFUL_STATE.IDLE:
-				set_mindful_state(MINDFUL_STATE.RUNNING)
+				set_mindful_state(MINDFUL_STATE.RESTARTING)
+				%StartPrompt.visible = false
+				emit_signal("broadcast_game_starting")
 			MINDFUL_STATE.RUNNING:
 				pressed_for_loop = true
 				# check if the press is within 0.0 + press window
@@ -101,13 +104,16 @@ func _process(delta: float) -> void:
 					set_mindful_state(MINDFUL_STATE.RESTARTING)
 
 	if Input.is_action_just_pressed("restart"):
-		set_mindful_state(MINDFUL_STATE.IDLE)
+		get_tree().reload_current_scene()
+		# set_mindful_state(MINDFUL_STATE.IDLE)
 
 	if Input.is_action_just_pressed("debug_goodpress"):
 		trigger_good_press()
 
 func trigger_good_press() -> void:
 	mindful_vis.trigger_good_press()
+	mindful_timer = press_frequency
+	mindful_vis.loop_visualization()
 	%PressAudioPlayer.play()
 	emit_signal("broadcast_good_press")
 

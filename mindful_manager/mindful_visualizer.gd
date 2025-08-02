@@ -1,6 +1,7 @@
 class_name  MindfulVisualizer extends Node2D
 
 @export var blackout_color : Color
+@export var win_color : Color
 
 @onready var timer_circle : Sprite2D = $TimerCircle
 @onready var restart_circle : Sprite2D = $RestartCircle
@@ -49,6 +50,11 @@ func trigger_ending_visualisation() -> void:
 	good_press_area.modulate = Color.TRANSPARENT
 	var blackout_tween = create_tween()
 	blackout_tween.tween_property(blackout_obj, "modulate", Color.TRANSPARENT, 1.0)
+
+	$FireLight1.trigger_end_game()
+	$FireLight2.trigger_end_game()
+	var bg_fade = create_tween()
+	bg_fade.tween_property(%WinBG, "modulate", win_color, 1.0)
 
 func reset_visualisation() -> void:
 	timer_circle.visible = true

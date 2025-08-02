@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://brwavp7xbiydt"]
+[gd_scene load_steps=52 format=3 uid="uid://brwavp7xbiydt"]
 
 [ext_resource type="Script" uid="uid://4jvy233oyccj" path="res://mindful_manager/mindful_manager.gd" id="1_rhdpm"]
 [ext_resource type="Script" uid="uid://reovckrxmpsk" path="res://mindful_manager/mindful_visualizer.gd" id="2_xok2r"]
@@ -20,6 +20,33 @@
 [ext_resource type="Texture2D" uid="uid://dqpd30nq83d31" path="res://assets/minimap_icon_jewel_yellow.png" id="12_dc221"]
 [ext_resource type="Texture2D" uid="uid://bywssbdqdy1ht" path="res://assets/minimap_icon_star_yellow.png" id="13_dc221"]
 [ext_resource type="Texture2D" uid="uid://dhsjksufyxqba" path="res://assets/minimap_icon_star_white.png" id="14_dc221"]
+[ext_resource type="Script" uid="uid://cyj8apijwaneu" path="res://managers/voice_manager.gd" id="21_xdlqn"]
+[ext_resource type="AudioStream" uid="uid://cvh1qmnir2lif" path="res://assets/audio/recordings/guiding/now-breathe-in.wav" id="22_lf3om"]
+[ext_resource type="AudioStream" uid="uid://d23hegij02io3" path="res://assets/audio/recordings/guiding/begin-again.wav" id="23_lf3om"]
+[ext_resource type="AudioStream" uid="uid://chmspmi8svaoy" path="res://assets/audio/recordings/guiding/find-your-breath.wav" id="24_pxpk3"]
+[ext_resource type="AudioStream" uid="uid://u040pnhdrrvf" path="res://assets/audio/recordings/guiding/non-judgement.wav" id="25_filyo"]
+[ext_resource type="AudioStream" uid="uid://bxmxwsohggpc0" path="res://assets/audio/recordings/guiding/your-are-an-observer.wav" id="26_f6rc5"]
+[ext_resource type="AudioStream" uid="uid://bioqr6md6qm7l" path="res://assets/audio/recordings/guiding/you-are-enough.wav" id="27_u8uss"]
+[ext_resource type="AudioStream" uid="uid://b45qcebdtfvrp" path="res://assets/audio/recordings/guiding/to-the-present.wav" id="28_khujh"]
+[ext_resource type="AudioStream" uid="uid://d4ljkhxkm71oi" path="res://assets/audio/recordings/guiding/sensations-around.wav" id="29_l5lcl"]
+[ext_resource type="AudioStream" uid="uid://cpliq88j1mpc7" path="res://assets/audio/recordings/guiding/doubt-flow-by.wav" id="30_4yodr"]
+[ext_resource type="AudioStream" uid="uid://cgj7ur42mowd7" path="res://assets/audio/recordings/doubtful/bla-bla-bla.wav" id="31_wf8x0"]
+[ext_resource type="AudioStream" uid="uid://dv54u5mmoqx40" path="res://assets/audio/recordings/doubtful/im-scared.wav" id="32_4jmdv"]
+[ext_resource type="AudioStream" uid="uid://dacii5mrylysj" path="res://assets/audio/recordings/doubtful/listen-to-me.wav" id="33_rp2oi"]
+[ext_resource type="AudioStream" uid="uid://b540xvbk8cuwc" path="res://assets/audio/recordings/doubtful/please-listen.wav" id="34_urpoc"]
+[ext_resource type="AudioStream" uid="uid://caoa2dseaedey" path="res://assets/audio/recordings/doubtful/scary-listen.wav" id="35_1f8ns"]
+[ext_resource type="AudioStream" uid="uid://4sygfqkyfp72" path="res://assets/audio/recordings/doubtful/begin-again-not-good.wav" id="36_56qiw"]
+[ext_resource type="AudioStream" uid="uid://2vcyiw0463qr" path="res://assets/audio/recordings/doubtful/better-than-everyone.wav" id="37_wt642"]
+[ext_resource type="AudioStream" uid="uid://dxlalbt5j7l24" path="res://assets/audio/recordings/doubtful/failed-once.wav" id="38_e1wyy"]
+[ext_resource type="AudioStream" uid="uid://1j1ust3wccc1" path="res://assets/audio/recordings/doubtful/hot-shit.wav" id="39_y8si5"]
+[ext_resource type="AudioStream" uid="uid://c88r70bckj0r3" path="res://assets/audio/recordings/doubtful/notification.wav" id="40_ejarf"]
+[ext_resource type="AudioStream" uid="uid://draqhp6pns7xr" path="res://assets/audio/recordings/doubtful/relaaax.wav" id="41_lf14u"]
+[ext_resource type="AudioStream" uid="uid://botu20fq8s4t8" path="res://assets/audio/recordings/doubtful/remember-anxious.wav" id="42_uc8uk"]
+[ext_resource type="AudioStream" uid="uid://dmnut3fon51de" path="res://assets/audio/recordings/doubtful/stop-failing-quit.wav" id="43_hmhqa"]
+[ext_resource type="AudioStream" uid="uid://dhpqtvtpaane6" path="res://assets/audio/recordings/doubtful/stop-trying.wav" id="44_rb606"]
+[ext_resource type="AudioStream" uid="uid://1r3lpbweuwar" path="res://assets/audio/recordings/doubtful/who-are-you.wav" id="45_os7h0"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_wf8x0"]
 
 [sub_resource type="Curve" id="Curve_11xf2"]
 _data = [Vector2(0, 0), 0.0, 0.396402, 0, 0, Vector2(1, 0.170717), 0.0, 0.0, 0, 0]
@@ -58,12 +85,20 @@ modulate = Color(0.098, 0.06, 0.25, 1)
 scale = Vector2(6, 6)
 texture = ExtResource("7_7amf7")
 
+[node name="WinBG" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+modulate = Color(0.7128, 0.77968, 0.88, 0)
+material = SubResource("CanvasItemMaterial_wf8x0")
+scale = Vector2(5, 5)
+texture = ExtResource("7_7amf7")
+
 [node name="Camera2D" type="Camera2D" parent="."]
 
 [node name="MindfulVisualizer" type="Node2D" parent="."]
 unique_name_in_owner = true
 script = ExtResource("2_xok2r")
 blackout_color = Color(0.0431373, 0, 0.14902, 1)
+win_color = Color(0.713726, 0.780392, 0.878431, 1)
 
 [node name="CandleStick" type="Sprite2D" parent="MindfulVisualizer"]
 self_modulate = Color(0.33, 0.33, 0.33, 1)
@@ -308,3 +343,13 @@ script = ExtResource("1_rhdpm")
 unique_name_in_owner = true
 stream = ExtResource("11_tuemy")
 volume_db = -8.0
+
+[node name="VoiceManager" type="Node" parent="."]
+script = ExtResource("21_xdlqn")
+game_start_voice = ExtResource("22_lf3om")
+guiding_bad_press_voices = Array[AudioStream]([ExtResource("23_lf3om"), ExtResource("24_pxpk3"), ExtResource("25_filyo")])
+guiding_random_voices = Array[AudioStream]([ExtResource("26_f6rc5"), ExtResource("27_u8uss"), ExtResource("28_khujh"), ExtResource("29_l5lcl"), ExtResource("30_4yodr")])
+doubtful_voice_ending = Array[AudioStream]([ExtResource("31_wf8x0"), ExtResource("32_4jmdv"), ExtResource("33_rp2oi"), ExtResource("34_urpoc"), ExtResource("35_1f8ns")])
+doubtful_random_voices = Array[AudioStream]([ExtResource("36_56qiw"), ExtResource("37_wt642"), ExtResource("38_e1wyy"), ExtResource("39_y8si5"), ExtResource("40_ejarf"), ExtResource("41_lf14u"), ExtResource("42_uc8uk"), ExtResource("43_hmhqa"), ExtResource("44_rb606"), ExtResource("45_os7h0")])
+
+[node name="VoicePlayer" type="AudioStreamPlayer" parent="VoiceManager"]
