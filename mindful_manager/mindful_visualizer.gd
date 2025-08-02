@@ -44,7 +44,14 @@ func trigger_bad_press() -> void:
 	trigger_feedback_circle()
 	bad_press_parts.emitting = true
 
+func trigger_ending_visualisation() -> void:
+	timer_circle.visible = false
+	good_press_area.modulate = Color.TRANSPARENT
+	var blackout_tween = create_tween()
+	blackout_tween.tween_property(blackout_obj, "modulate", Color.TRANSPARENT, 1.0)
+
 func reset_visualisation() -> void:
+	timer_circle.visible = true
 	good_press_area.modulate = good_press_area_color
 	disturb_timer_circle_fade = false
 	blackout_obj.modulate = Color.TRANSPARENT

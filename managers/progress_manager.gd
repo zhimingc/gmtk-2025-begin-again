@@ -1,9 +1,11 @@
 class_name ProgressManager extends Node
 
 # enum PRESS_PROG { START = 0, FIRST = 5, SECOND = 10, THIRD = 15, FOURTH = 20, FIFTH = 25, DONE = 35}
-enum PRESS_PROG { START = 0, FIRST = 4, SECOND = 8, THIRD = 12, FOURTH = 16, FIFTH = 20, DONE = 28}
+# enum PRESS_PROG { START = 0, FIRST = 4, SECOND = 8, THIRD = 12, FOURTH = 16, FIFTH = 20, DONE = 28}
 # enum PRESS_PROG { START = 0, FIRST = 2, SECOND = 4, THIRD = 6, FOURTH = 8, FIFTH = 12, DONE = 16} # debugging
-#enum PRESS_PROG { START = 0, FIRST = 1, SECOND = 2, THIRD = 3, FOURTH = 4, FIFTH = 5, DONE = 6} # debugging fast
+enum PRESS_PROG { START = 0, FIRST = 1, SECOND = 2, THIRD = 3, FOURTH = 4, FIFTH = 5, DONE = 6} # debugging fast
+
+signal broadcast_progress_done()
 
 @export var metronome_tracks : Array[AudioStream]
 
@@ -56,6 +58,8 @@ func update_progress(presses : int) -> void:
 		PRESS_PROG.FIFTH: # blackout
 			mindful_vis.trigger_blackout()
 		PRESS_PROG.DONE:
+			progress_dots.set_done()
+			emit_signal("broadcast_progress_done")
 			pass
 
 	var stage = PRESS_PROG.values().find(good_presses)

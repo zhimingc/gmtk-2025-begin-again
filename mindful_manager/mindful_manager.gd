@@ -6,7 +6,7 @@ signal broadcast_restarting()
 signal broadcast_good_press()
 signal broadcast_bad_press()
 
-enum MINDFUL_STATE { IDLE, RUNNING, RESTARTING }
+enum MINDFUL_STATE { IDLE, RUNNING, RESTARTING, DONE }
 
 @export var press_frequency : float = 4.0
 @export var before_press_window : float = 0.3
@@ -21,6 +21,10 @@ var mindful_state : MINDFUL_STATE = MINDFUL_STATE.IDLE
 
 func _ready() -> void:
 	set_mindful_state(MINDFUL_STATE.IDLE)
+	%ProgressManager.connect("broadcast_progress_done", on_progress_done)
+
+func on_progress_done() -> void:
+	set_mindful_state(MINDFUL_STATE.DONE)
 
 func set_mindful_state(new_state : MINDFUL_STATE) -> void:
 	mindful_state = new_state
@@ -47,6 +51,10 @@ func set_mindful_state(new_state : MINDFUL_STATE) -> void:
 			restart_tween.tween_interval(4.0)
 			restart_tween.tween_callback(func(): set_mindful_state(MINDFUL_STATE.RUNNING))
 			emit_signal("broadcast_restarting")
+		MINDFUL_STATE.DONE:
+			mindful_timer = 0.0
+			mindful_vis.trigger_ending_visualisation()
+			restart_mindful_timer()
 
 	mindful_vis.update_visualization(get_mindful_press_progress())
 
