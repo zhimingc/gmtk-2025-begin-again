@@ -49,12 +49,11 @@ func trigger_ending_visualisation() -> void:
 	timer_circle.visible = false
 	good_press_area.modulate = Color.TRANSPARENT
 	var blackout_tween = create_tween()
-	blackout_tween.tween_property(blackout_obj, "modulate", Color.TRANSPARENT, 1.0)
-
+	blackout_tween.tween_property(blackout_obj, "modulate", Color.TRANSPARENT, 4.0)
 	$FireLight1.trigger_end_game()
 	$FireLight2.trigger_end_game()
 	var bg_fade = create_tween()
-	bg_fade.tween_property(%WinBG, "modulate", win_color, 1.0)
+	bg_fade.tween_property(%WinBG, "modulate", win_color, 4.0)
 
 func reset_visualisation() -> void:
 	timer_circle.visible = true

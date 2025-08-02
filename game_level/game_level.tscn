@@ -88,6 +88,7 @@ texture = ExtResource("7_7amf7")
 [node name="WinBG" type="Sprite2D" parent="."]
 unique_name_in_owner = true
 modulate = Color(0.7128, 0.77968, 0.88, 0)
+z_index = 3
 material = SubResource("CanvasItemMaterial_wf8x0")
 scale = Vector2(5, 5)
 texture = ExtResource("7_7amf7")
@@ -310,7 +311,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Fire" type="ColorRect" parent="HUD"]
-z_index = 2
+z_index = 4
 material = SubResource("ShaderMaterial_dn7wq")
 layout_mode = 1
 anchors_preset = 8

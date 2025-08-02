@@ -30,6 +30,10 @@ func on_bad_press() -> void:
 	voice_player.play(0.0)
 
 func on_good_press() -> void:
+	if prog_manager.last_stage == ProgressManager.PRESS_PROG.DONE:
+		# play some ending voice here, if i get to it
+		return
+	
 	var voice_roll = randi_range(0,100)
 	if voice_roll < good_odds:
 		voice_player.stream = guiding_random_voices.pick_random()

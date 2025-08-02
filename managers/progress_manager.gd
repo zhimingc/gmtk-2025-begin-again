@@ -1,8 +1,8 @@
 class_name ProgressManager extends Node
 
-# enum PRESS_PROG { START = 0, FIRST = 4, SECOND = 8, THIRD = 12, FOURTH = 16, FIFTH = 20, DONE = 25}
+enum PRESS_PROG { START = 0, FIRST = 4, SECOND = 8, THIRD = 12, FOURTH = 16, FIFTH = 20, DONE = 25}
 # enum PRESS_PROG { START = 0, FIRST = 2, SECOND = 4, THIRD = 6, FOURTH = 8, FIFTH = 12, DONE = 16} # debugging
-enum PRESS_PROG { START = 0, FIRST = 1, SECOND = 2, THIRD = 3, FOURTH = 4, FIFTH = 5, DONE = 6} # debugging fast
+# enum PRESS_PROG { START = 0, FIRST = 1, SECOND = 2, THIRD = 3, FOURTH = 4, FIFTH = 5, DONE = 6} # debugging fast
 
 signal broadcast_progress_done()
 
