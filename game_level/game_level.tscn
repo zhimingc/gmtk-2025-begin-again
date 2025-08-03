@@ -1,4 +1,4 @@
-[gd_scene load_steps=70 format=3 uid="uid://brwavp7xbiydt"]
+[gd_scene load_steps=74 format=3 uid="uid://brwavp7xbiydt"]
 
 [ext_resource type="Script" uid="uid://4jvy233oyccj" path="res://mindful_manager/mindful_manager.gd" id="1_rhdpm"]
 [ext_resource type="Script" uid="uid://bhexx6mj1xv3q" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2d.gd" id="2_urpoc"]
@@ -6,7 +6,9 @@
 [ext_resource type="Script" uid="uid://8umksf8e80fw" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="3_1f8ns"]
 [ext_resource type="Texture2D" uid="uid://kc1ksxvhok15" path="res://assets/circle_64.png" id="3_2dw86"]
 [ext_resource type="Texture2D" uid="uid://b5owen4ol5wpt" path="res://assets/circle-border-768.png" id="3_pigtr"]
+[ext_resource type="Texture2D" uid="uid://bmcw7c4ymg05e" path="res://assets/smooth-vignette.png" id="4_4lpq3"]
 [ext_resource type="Script" uid="uid://bd046eokvcnu2" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="4_56qiw"]
+[ext_resource type="Texture2D" uid="uid://c8ywqw3iaih06" path="res://assets/rough-vignette.png" id="5_66jpq"]
 [ext_resource type="Texture2D" uid="uid://u40ygurp1wnx" path="res://assets/circle-512.png" id="5_rgtcy"]
 [ext_resource type="Texture2D" uid="uid://cxe3b8pbuo3ck" path="res://assets/paint-circle-100.png" id="6_2dw86"]
 [ext_resource type="Texture2D" uid="uid://c6476twt0hhyv" path="res://assets/square.png" id="7_7amf7"]
@@ -28,6 +30,7 @@
 [ext_resource type="Script" uid="uid://dr0qeq8ukgbvh" path="res://game_level/fire.gd" id="19_y8si5"]
 [ext_resource type="Texture2D" uid="uid://dn0wwllg4rjky" path="res://assets/UI/Border/panel-border-029.png" id="20_e1wyy"]
 [ext_resource type="Texture2D" uid="uid://btnv2oec537g4" path="res://assets/UI/Small/panel-transparent-center-004.png" id="20_lf14u"]
+[ext_resource type="Texture2D" uid="uid://cr1t777mnelq4" path="res://assets/UI/headphones.png" id="20_os7h0"]
 [ext_resource type="Texture2D" uid="uid://dh1plcd7b54o7" path="res://assets/UI/Small/panel-border-004.png" id="21_uc8uk"]
 [ext_resource type="Script" uid="uid://cyj8apijwaneu" path="res://managers/voice_manager.gd" id="21_xdlqn"]
 [ext_resource type="AudioStream" uid="uid://cvh1qmnir2lif" path="res://assets/audio/recordings/guiding/now-breathe-in.wav" id="22_lf3om"]
@@ -66,6 +69,9 @@ script = ExtResource("3_1f8ns")
 duration = 4.0
 transition = 0
 ease = 2
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_66jpq"]
+light_mode = 1
 
 [sub_resource type="Curve" id="Curve_11xf2"]
 _data = [Vector2(0, 0), 0.0, 0.396402, 0, 0, Vector2(1, 0.170717), 0.0, 0.0, 0, 0]
@@ -149,16 +155,32 @@ script = ExtResource("2_urpoc")
 tween_resource = SubResource("Resource_wt642")
 metadata/_custom_type_script = "uid://bhexx6mj1xv3q"
 
+[node name="GuidingVignette" type="Sprite2D" parent="GameView"]
+unique_name_in_owner = true
+modulate = Color(0.724643, 0.724643, 0.724643, 1)
+z_index = 5
+material = SubResource("CanvasItemMaterial_66jpq")
+scale = Vector2(1.1, 1.1)
+texture = ExtResource("4_4lpq3")
+
+[node name="DoubtingVignette" type="Sprite2D" parent="GameView"]
+unique_name_in_owner = true
+self_modulate = Color(0.431373, 0, 0.0352941, 1)
+z_index = 5
+material = SubResource("CanvasItemMaterial_66jpq")
+scale = Vector2(1.1, 1.1)
+texture = ExtResource("5_66jpq")
+
 [node name="MenuView" type="Node2D" parent="."]
 unique_name_in_owner = true
-position = Vector2(-384, 0)
+position = Vector2(-360, 0)
 script = ExtResource("2_urpoc")
 priority = 1
 tween_resource = SubResource("Resource_wt642")
 metadata/_custom_type_script = "uid://bhexx6mj1xv3q"
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(-384, 0)
+position = Vector2(-360, 0)
 
 [node name="PhantomCameraHost" type="Node" parent="Camera2D"]
 process_priority = 300
@@ -414,7 +436,6 @@ lights = [NodePath("../../MindfulVisualizer/FireLight1"), NodePath("../../Mindfu
 
 [node name="MainMenu" type="VBoxContainer" parent="HUD"]
 unique_name_in_owner = true
-modulate = Color(0, 0, 0, 1)
 z_index = 5
 layout_mode = 1
 anchors_preset = 4
@@ -427,6 +448,7 @@ offset_bottom = 240.0
 grow_vertical = 2
 
 [node name="GameTitle" type="RichTextLabel" parent="HUD/MainMenu"]
+modulate = Color(0, 0, 0, 1)
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_font_sizes/normal_font_size = 64
@@ -434,14 +456,44 @@ text = "Voices, again"
 horizontal_alignment = 1
 
 [node name="Instructions" type="RichTextLabel" parent="HUD/MainMenu"]
+modulate = Color(0, 0, 0, 1)
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_font_sizes/normal_font_size = 36
 text = "[Space] to start game"
 vertical_alignment = 2
 
+[node name="HSeparator" type="HSeparator" parent="HUD/MainMenu"]
+layout_mode = 2
+
+[node name="Headpones" type="HBoxContainer" parent="HUD/MainMenu"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.3
+
+[node name="HeaphonesTexture" type="TextureRect" parent="HUD/MainMenu/Headpones"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.15
+texture = ExtResource("20_os7h0")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="HeadphonesPrompt" type="RichTextLabel" parent="HUD/MainMenu/Headpones"]
+modulate = Color(0, 0, 0, 1)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_font_sizes/normal_font_size = 20
+text = "Headphones recommended"
+vertical_alignment = 1
+
+[node name="HSeparator2" type="HSeparator" parent="HUD/MainMenu"]
+layout_mode = 2
+
 [node name="HardToggle" type="CheckButton" parent="HUD/MainMenu"]
 unique_name_in_owner = true
+modulate = Color(0, 0, 0, 1)
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.3
@@ -489,6 +541,8 @@ doubtful_random_voices = Array[AudioStream]([ExtResource("36_56qiw"), ExtResourc
 
 [node name="VoicePlayer" type="AudioStreamPlayer" parent="VoiceManager"]
 volume_db = 8.0
+bus = &"Voices"
+playback_type = 1
 
 [node name="MenuManager" type="Node" parent="."]
 script = ExtResource("52_e1wyy")
