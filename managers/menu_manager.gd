@@ -1,5 +1,7 @@
 class_name MenuManager extends Node
 
+@export var menu_audio : Array[AudioStream]
+
 @onready var progress_dots = %ProgressDots
 @onready var mindful_vis : MindfulVisualizer = %MindfulVisualizer
 @onready var start_prompt = %StartPrompt
@@ -7,6 +9,7 @@ class_name MenuManager extends Node
 @onready var main_menu = %MainMenu
 @onready var game_view : PhantomCamera2D = %GameView
 @onready var menu_bg = %MenuBG
+@onready var menu_player : AudioStreamPlayer = $MenuAudio
 
 var in_menu : bool = true
 var menu_bg_color : Color
@@ -38,12 +41,17 @@ func enter_game() -> void:
 	var enter_game_tween = create_tween()
 	var tween_timer = 4.0
 	# turn off lights
+	menu_player.stream = menu_audio[0]
+	menu_player.play(0.0)
 	main_menu.modulate = Color.TRANSPARENT
 	enter_game_tween.tween_callback(func(): menu_bg.modulate = Color.TRANSPARENT)
-	enter_game_tween.tween_interval(1.0)
+	enter_game_tween.tween_interval(2.0)
 	# light candle
-	enter_game_tween.tween_callback(func(): %Fire.toggle_light(true))
-	enter_game_tween.tween_interval(1.0)
+	enter_game_tween.tween_callback(func(): 
+		menu_player.stream = menu_audio[1]
+		menu_player.play(0.0)
+		%Fire.toggle_light(true))
+	enter_game_tween.tween_interval(2.0)
 	# pan camera
 	enter_game_tween.tween_callback(func(): game_view.priority = 2) 
 	enter_game_tween.tween_property(progress_dots, "modulate", Color.WHITE, tween_timer)

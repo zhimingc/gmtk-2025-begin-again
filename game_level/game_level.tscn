@@ -1,4 +1,4 @@
-[gd_scene load_steps=66 format=3 uid="uid://brwavp7xbiydt"]
+[gd_scene load_steps=70 format=3 uid="uid://brwavp7xbiydt"]
 
 [ext_resource type="Script" uid="uid://4jvy233oyccj" path="res://mindful_manager/mindful_manager.gd" id="1_rhdpm"]
 [ext_resource type="Script" uid="uid://bhexx6mj1xv3q" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2d.gd" id="2_urpoc"]
@@ -19,7 +19,7 @@
 [ext_resource type="AudioStream" uid="uid://cf25hsefogxlm" path="res://assets/audio/60-bpm-1-4-beat.wav" id="10_7amf7"]
 [ext_resource type="Shader" uid="uid://csy3syd8pboan" path="res://game_level/fire_2.gdshader" id="11_402n5"]
 [ext_resource type="Texture2D" uid="uid://dskmm386sf2su" path="res://assets/minimap_icon_jewel_white.png" id="11_da6tk"]
-[ext_resource type="AudioStream" uid="uid://b8ttoyogl1gv4" path="res://assets/audio/enolareven__432-hz-a-bell.wav" id="11_tuemy"]
+[ext_resource type="AudioStream" uid="uid://b8ttoyogl1gv4" path="res://assets/audio/sfx_bing.wav" id="11_tuemy"]
 [ext_resource type="Texture2D" uid="uid://dqpd30nq83d31" path="res://assets/minimap_icon_jewel_yellow.png" id="12_dc221"]
 [ext_resource type="Texture2D" uid="uid://bywssbdqdy1ht" path="res://assets/minimap_icon_star_yellow.png" id="13_dc221"]
 [ext_resource type="Texture2D" uid="uid://dhsjksufyxqba" path="res://assets/minimap_icon_star_white.png" id="14_dc221"]
@@ -55,6 +55,9 @@
 [ext_resource type="AudioStream" uid="uid://dhpqtvtpaane6" path="res://assets/audio/recordings/doubtful/stop-trying.wav" id="44_rb606"]
 [ext_resource type="AudioStream" uid="uid://1r3lpbweuwar" path="res://assets/audio/recordings/doubtful/who-are-you.wav" id="45_os7h0"]
 [ext_resource type="Script" uid="uid://chif8orws1giy" path="res://managers/menu_manager.gd" id="52_e1wyy"]
+[ext_resource type="AudioStream" uid="uid://db7msvndn2jfj" path="res://assets/audio/LIGHT_Button_Fluorescent_02_Off_mono.wav" id="56_hmhqa"]
+[ext_resource type="AudioStream" uid="uid://bys4a8hhbj20m" path="res://assets/audio/FOLEY_Light_Match_mono.wav" id="57_rb606"]
+[ext_resource type="AudioStream" uid="uid://uvbuobnk7ywc" path="res://assets/audio/bgm_fireplace.wav" id="58_rb606"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_wf8x0"]
 
@@ -81,6 +84,9 @@ metadata/_snap_count = 2
 [sub_resource type="Gradient" id="Gradient_xok2r"]
 offsets = PackedFloat32Array(0, 0.797654, 0.903226, 1)
 colors = PackedColorArray(0.15, 0.0345, 0.0345, 1, 0.74, 0.3108, 0.317953, 1, 0.928406, 0.302974, 0.304944, 1, 1, 0.3, 0.3, 0)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lf14u"]
+size = Vector2(1920, 1080)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_dn7wq"]
 shader = ExtResource("11_402n5")
@@ -145,14 +151,14 @@ metadata/_custom_type_script = "uid://bhexx6mj1xv3q"
 
 [node name="MenuView" type="Node2D" parent="."]
 unique_name_in_owner = true
-position = Vector2(-480, 0)
+position = Vector2(-384, 0)
 script = ExtResource("2_urpoc")
 priority = 1
 tween_resource = SubResource("Resource_wt642")
 metadata/_custom_type_script = "uid://bhexx6mj1xv3q"
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(-480, 0)
+position = Vector2(-384, 0)
 
 [node name="PhantomCameraHost" type="Node" parent="Camera2D"]
 process_priority = 300
@@ -255,6 +261,11 @@ texture = ExtResource("8_dn7wq")
 texture_scale = 2.0
 script = ExtResource("9_flisg")
 
+[node name="TouchScreenButton" type="TouchScreenButton" parent="."]
+scale = Vector2(2, 2)
+shape = SubResource("RectangleShape2D_lf14u")
+action = "mindful_input"
+
 [node name="HUD" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 8
@@ -274,10 +285,10 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -112.0
-offset_top = 52.0
-offset_right = 112.0
-offset_bottom = 152.0
+offset_left = -176.0
+offset_top = 60.0
+offset_right = 176.0
+offset_bottom = 212.0
 grow_horizontal = 2
 
 [node name="ProgressDots" type="HBoxContainer" parent="HUD/VBoxContainer"]
@@ -292,36 +303,42 @@ star_done_texture = ExtResource("13_dc221")
 layout_mode = 2
 size_flags_horizontal = 3
 texture = ExtResource("11_da6tk")
+expand_mode = 5
 stretch_mode = 5
 
 [node name="ProgressDot2" type="TextureRect" parent="HUD/VBoxContainer/ProgressDots"]
 layout_mode = 2
 size_flags_horizontal = 3
 texture = ExtResource("11_da6tk")
+expand_mode = 5
 stretch_mode = 5
 
 [node name="ProgressDot3" type="TextureRect" parent="HUD/VBoxContainer/ProgressDots"]
 layout_mode = 2
 size_flags_horizontal = 3
 texture = ExtResource("11_da6tk")
+expand_mode = 5
 stretch_mode = 5
 
 [node name="ProgressDot4" type="TextureRect" parent="HUD/VBoxContainer/ProgressDots"]
 layout_mode = 2
 size_flags_horizontal = 3
 texture = ExtResource("11_da6tk")
+expand_mode = 5
 stretch_mode = 5
 
 [node name="ProgressDot5" type="TextureRect" parent="HUD/VBoxContainer/ProgressDots"]
 layout_mode = 2
 size_flags_horizontal = 3
 texture = ExtResource("11_da6tk")
+expand_mode = 5
 stretch_mode = 5
 
 [node name="ProgressDot6" type="TextureRect" parent="HUD/VBoxContainer/ProgressDots"]
 layout_mode = 2
 size_flags_horizontal = 3
 texture = ExtResource("14_dc221")
+expand_mode = 5
 stretch_mode = 5
 
 [node name="PressesLabel" type="RichTextLabel" parent="HUD/VBoxContainer"]
@@ -403,9 +420,9 @@ layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
-offset_left = -256.0
+offset_left = 152.0
 offset_top = -320.0
-offset_right = 152.0
+offset_right = 560.0
 offset_bottom = 240.0
 grow_vertical = 2
 
@@ -475,5 +492,13 @@ volume_db = 2.0
 
 [node name="MenuManager" type="Node" parent="."]
 script = ExtResource("52_e1wyy")
+menu_audio = Array[AudioStream]([ExtResource("56_hmhqa"), ExtResource("57_rb606")])
+
+[node name="MenuAudio" type="AudioStreamPlayer" parent="MenuManager"]
+
+[node name="GameBGM" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("58_rb606")
+volume_db = -8.0
+autoplay = true
 
 [connection signal="pressed" from="HUD/MainMenu/StartGame" to="MenuManager" method="enter_game"]

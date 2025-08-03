@@ -77,7 +77,7 @@ func reset_progress_from_stage(stage : PRESS_PROG) -> void:
 		metronome_player.play(0.0)
 	else:
 		metronome_player.stop()
-	if hardcore_toggle.pressed:
+	if hardcore_toggle.button_pressed:
 		reset_audio_assist()
 		metronome_player.play(0.0)
 		mindful_vis.reset_visualisation()

@@ -24,6 +24,7 @@ func _ready() -> void:
 	set_mindful_state(MINDFUL_STATE.DISABLE)
 	%ProgressManager.connect("broadcast_progress_done", on_progress_done)
 
+
 func on_progress_done() -> void:
 	set_mindful_state(MINDFUL_STATE.DONE)
 
