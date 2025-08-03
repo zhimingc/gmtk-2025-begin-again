@@ -37,7 +37,7 @@ func _process(delta: float) -> void:
 
 func trigger_end_game() -> void:
 	original_energy = 0.1
-	flicker_energy = Vector2(-0.05, 0.1)
+	flicker_energy = Vector2(-0.01, 0.05)
 
 func fade_in(time : float) -> void:
 	visible = true

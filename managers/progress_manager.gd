@@ -66,7 +66,7 @@ func update_progress(presses : int) -> void:
 
 	var stage = PRESS_PROG.values().find(good_presses)
 	if stage != -1:
-		if !hardcore_toggle.pressed:
+		if !hardcore_toggle.button_pressed:
 			last_stage = PRESS_PROG.values()[stage]
 		progress_dots.set_progress_hud(stage)
 

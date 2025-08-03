@@ -488,7 +488,7 @@ doubtful_voice_ending = Array[AudioStream]([ExtResource("31_wf8x0"), ExtResource
 doubtful_random_voices = Array[AudioStream]([ExtResource("36_56qiw"), ExtResource("37_wt642"), ExtResource("38_e1wyy"), ExtResource("39_y8si5"), ExtResource("40_ejarf"), ExtResource("41_lf14u"), ExtResource("42_uc8uk"), ExtResource("43_hmhqa"), ExtResource("44_rb606"), ExtResource("45_os7h0")])
 
 [node name="VoicePlayer" type="AudioStreamPlayer" parent="VoiceManager"]
-volume_db = 2.0
+volume_db = 8.0
 
 [node name="MenuManager" type="Node" parent="."]
 script = ExtResource("52_e1wyy")
@@ -498,7 +498,7 @@ menu_audio = Array[AudioStream]([ExtResource("56_hmhqa"), ExtResource("57_rb606"
 
 [node name="GameBGM" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("58_rb606")
-volume_db = -8.0
+volume_db = -16.0
 autoplay = true
 
 [connection signal="pressed" from="HUD/MainMenu/StartGame" to="MenuManager" method="enter_game"]
