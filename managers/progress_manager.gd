@@ -13,6 +13,7 @@ signal broadcast_progress_done()
 @onready var presses_label : RichTextLabel = %PressesLabel
 @onready var metronome_player : AudioStreamPlayer = %MetronomePlayer
 @onready var progress_dots : ProgressDots = %ProgressDots
+@onready var hardcore_toggle : CheckButton = %HardToggle
 
 var good_presses : int = 0
 var last_stage : PRESS_PROG = PRESS_PROG.START
@@ -65,7 +66,8 @@ func update_progress(presses : int) -> void:
 
 	var stage = PRESS_PROG.values().find(good_presses)
 	if stage != -1:
-		last_stage = PRESS_PROG.values()[stage]
+		if !hardcore_toggle.pressed:
+			last_stage = PRESS_PROG.values()[stage]
 		progress_dots.set_progress_hud(stage)
 
 func reset_progress_from_stage(stage : PRESS_PROG) -> void:
@@ -75,6 +77,11 @@ func reset_progress_from_stage(stage : PRESS_PROG) -> void:
 		metronome_player.play(0.0)
 	else:
 		metronome_player.stop()
+	if hardcore_toggle.pressed:
+		reset_audio_assist()
+		metronome_player.play(0.0)
+		mindful_vis.reset_visualisation()
+		progress_dots.set_progress_hud(stage)
 
 func reset_progress() -> void:
 	good_presses = 0

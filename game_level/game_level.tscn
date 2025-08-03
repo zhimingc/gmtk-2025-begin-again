@@ -1,4 +1,4 @@
-[gd_scene load_steps=64 format=3 uid="uid://brwavp7xbiydt"]
+[gd_scene load_steps=66 format=3 uid="uid://brwavp7xbiydt"]
 
 [ext_resource type="Script" uid="uid://4jvy233oyccj" path="res://mindful_manager/mindful_manager.gd" id="1_rhdpm"]
 [ext_resource type="Script" uid="uid://bhexx6mj1xv3q" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2d.gd" id="2_urpoc"]
@@ -27,6 +27,8 @@
 [ext_resource type="Texture2D" uid="uid://tone6l3k3d6d" path="res://assets/UI/Border/panel-border-031.png" id="19_wt642"]
 [ext_resource type="Script" uid="uid://dr0qeq8ukgbvh" path="res://game_level/fire.gd" id="19_y8si5"]
 [ext_resource type="Texture2D" uid="uid://dn0wwllg4rjky" path="res://assets/UI/Border/panel-border-029.png" id="20_e1wyy"]
+[ext_resource type="Texture2D" uid="uid://btnv2oec537g4" path="res://assets/UI/Small/panel-transparent-center-004.png" id="20_lf14u"]
+[ext_resource type="Texture2D" uid="uid://dh1plcd7b54o7" path="res://assets/UI/Small/panel-border-004.png" id="21_uc8uk"]
 [ext_resource type="Script" uid="uid://cyj8apijwaneu" path="res://managers/voice_manager.gd" id="21_xdlqn"]
 [ext_resource type="AudioStream" uid="uid://cvh1qmnir2lif" path="res://assets/audio/recordings/guiding/now-breathe-in.wav" id="22_lf3om"]
 [ext_resource type="AudioStream" uid="uid://d23hegij02io3" path="res://assets/audio/recordings/guiding/begin-again.wav" id="23_lf3om"]
@@ -403,7 +405,7 @@ anchor_top = 0.5
 anchor_bottom = 0.5
 offset_left = -256.0
 offset_top = -320.0
-offset_right = 184.0
+offset_right = 152.0
 offset_bottom = 240.0
 grow_vertical = 2
 
@@ -417,9 +419,21 @@ horizontal_alignment = 1
 [node name="Instructions" type="RichTextLabel" parent="HUD/MainMenu"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_font_sizes/normal_font_size = 32
+theme_override_font_sizes/normal_font_size = 36
 text = "[Space] to start game"
 vertical_alignment = 2
+
+[node name="HardToggle" type="CheckButton" parent="HUD/MainMenu"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.3
+focus_mode = 0
+theme_override_font_sizes/font_size = 20
+theme_override_icons/checked = ExtResource("20_lf14u")
+theme_override_icons/unchecked = ExtResource("21_uc8uk")
+text = "Hard mode (no checkpoints)"
+icon_alignment = 2
 
 [node name="StartGame" type="Button" parent="HUD/MainMenu"]
 visible = false
