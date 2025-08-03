@@ -1,4 +1,4 @@
-extends PointLight2D
+class_name FireLight extends PointLight2D
 
 @export var flicker_freq : Vector2 = Vector2(0.1, 0.25)
 @export var flicker_scale : Vector2 = Vector2(-0.1, 0.1)
@@ -14,6 +14,7 @@ var target_scale : float
 var target_energy : float
 var prev_scale : float
 var prev_energy : float
+var light_on : bool = false
 
 func _ready() -> void:
 	new_flicker()
@@ -27,12 +28,19 @@ func new_flicker() -> void:
 	target_energy = original_energy + randf_range(flicker_energy.x, flicker_energy.y) 
 
 func _process(delta: float) -> void:
-	cur_time -= delta
-	texture_scale = lerp(prev_scale, target_scale, 1.0 - max(0.0, cur_time/flicker_time))
-	energy = lerp(prev_energy, target_energy, 1.0 - max(0.0, cur_time/flicker_time))
-	if cur_time <= 0.0:
-		new_flicker()
+	if light_on:
+		cur_time -= delta
+		texture_scale = lerp(prev_scale, target_scale, 1.0 - max(0.0, cur_time/flicker_time))
+		energy = lerp(prev_energy, target_energy, 1.0 - max(0.0, cur_time/flicker_time))
+		if cur_time <= 0.0:
+			new_flicker()
 
 func trigger_end_game() -> void:
 	original_energy = 0.1
 	flicker_energy = Vector2(-0.05, 0.1)
+
+func fade_in(time : float) -> void:
+	visible = true
+	var fade = create_tween()
+	fade.tween_property(self, "energy", original_energy, time)
+	fade.tween_callback(func(): light_on = true)

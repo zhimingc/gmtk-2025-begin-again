@@ -7,7 +7,7 @@ signal broadcast_restarting()
 signal broadcast_good_press()
 signal broadcast_bad_press()
 
-enum MINDFUL_STATE { IDLE, RUNNING, RESTARTING, DONE, RETURN }
+enum MINDFUL_STATE { DISABLE, IDLE, RUNNING, RESTARTING, DONE, RETURN }
 
 @export var press_frequency : float = 4.0
 @export var before_press_window : float = 0.3
@@ -21,7 +21,7 @@ var mindful_timer : float = 0.0
 var mindful_state : MINDFUL_STATE = MINDFUL_STATE.IDLE
 
 func _ready() -> void:
-	set_mindful_state(MINDFUL_STATE.IDLE)
+	set_mindful_state(MINDFUL_STATE.DISABLE)
 	%ProgressManager.connect("broadcast_progress_done", on_progress_done)
 
 func on_progress_done() -> void:
@@ -105,7 +105,7 @@ func _process(delta: float) -> void:
 					emit_signal("broadcast_bad_press")
 					set_mindful_state(MINDFUL_STATE.RESTARTING)
 			MINDFUL_STATE.RETURN:
-				# return to main menu at this point
+				get_tree().reload_current_scene()
 				pass
 			
 

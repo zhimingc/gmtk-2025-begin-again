@@ -77,3 +77,12 @@ func trigger_feedback_circle() -> void:
 	feedback_circle.modulate = Color.DARK_RED
 	feedback_circle_fade_tween = create_tween()
 	feedback_circle_fade_tween.tween_property(feedback_circle, "modulate", Color.TRANSPARENT, 2.0) 
+
+func toggle_main_menu_view(in_menu : bool) -> void:
+	if in_menu:
+		timer_circle.modulate = Color.TRANSPARENT
+		good_press_area.modulate = Color.TRANSPARENT
+	else:
+		var timer_circle_fade = create_tween()
+		timer_circle_fade.tween_property(timer_circle, "modulate", Color.WHITE, 1.0)
+		timer_circle_fade.parallel().tween_property(good_press_area, "modulate", good_press_area_color, 1.0)
